@@ -48,10 +48,10 @@ if IRB.const_defined? :CaptureIO
       editors = %w[vi vim emacs nano mate ed]
       editors.each{ |editor|
         alias_for editor, editor_unpatched = ( editor +  '_unpatched' ).to_sym
-        define_method editor do
+        define_method editor do |*args|
           STDOUT.reopen(IRB::CaptureIO.streams[:stdout])
           STDERR.reopen(IRB::CaptureIO.streams[:stderr])
-          send editor_unpatched
+          send editor_unpatched, *args
         end
       }
     end
